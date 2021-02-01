@@ -93,7 +93,7 @@ class TokopediaController extends Controller
 
                             $timeLimit += 1;
 
-                            echo "Lagi limig gannnn, tunggu sampai 60 yah. ini baru: $timeLimit <br>";
+                            echo "Lagi limit gannnn, tunggu sampai 60 yah. ini baru: $timeLimit <br>";
 
                             sleep(1);
                         }

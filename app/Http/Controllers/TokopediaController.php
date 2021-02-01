@@ -12,7 +12,7 @@ class TokopediaController extends Controller
 {
     public function index()
     {
-        dd(glob(public_path('tokopedia/file_lama/271386/*')));
+        dd(glob(public_path('tokopedia/file_lama/271386/*.xlsx')));
         
         $folderCekGambar  = preg_replace('/\\/', '/', glob(public_path('tokopedia\file_lama\271386\*.xlsx')));
         $folderUbahStatus = preg_replace('/\\/', '/', glob(public_path('tokopedia\file_lama\271385\*.xlsx')));

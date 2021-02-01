@@ -20,7 +20,7 @@ class TokopediaController extends Controller
         if(!request()->file_ke && !request()->baris_ke) {
             for ($i=$_GET['start_dari']; $i < $_GET['berhenti_di']; $i++) { 
                 
-                echo "<script>Window.open(\"?file_ke=$i&baris_ke=4\", \"_blank\"); </script>";
+                echo "<script>window.open(\"?file_ke=$i&baris_ke=4\", \"_blank\"); </script>";
             }
 
             return false;

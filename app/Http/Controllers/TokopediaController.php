@@ -12,10 +12,10 @@ class TokopediaController extends Controller
 {
     public function index()
     {
+        dd(__DIR__);
         
         $folderCekGambar  = preg_replace('/\\/', '/', glob(public_path('tokopedia\file_lama\271386\*.xlsx')));
         $folderUbahStatus = preg_replace('/\\/', '/', glob(public_path('tokopedia\file_lama\271385\*.xlsx')));
-dd($folderCekGambar, $folderUbahStatus);
         // untuk membuat open link in new tab javascript
         if(!request()->file_ke && !request()->baris_ke) {
             for ($i=$_GET['start_dari']; $i < $_GET['berhenti_di']; $i++) { 

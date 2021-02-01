@@ -1,0 +1,24 @@
+{
+    "fields": [{
+        "name": "bagian_id",
+        "type": "select",
+        "options": [
+            {"{{ bagian->id }}": "{{ bagian->nama }}"}
+        ]
+    }, {
+        "name": "nama",
+        "type": "varchar"
+    }],
+
+    "foreign_keys": [],
+    "relationships": [{
+        "name": "bagian",
+        "type": "belongsTo",
+        "class": "App\\Models\\Bagian"
+    }],
+
+    "validations": [{
+        "field": "bagian_id",
+        "rules": "required|exists:bagian,id"
+    }]
+}

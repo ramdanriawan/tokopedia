@@ -1,0 +1,119 @@
+{
+    "fields": [{
+            "name": "jabatan_id",
+            "type": "select",
+            "options": [
+                {
+                    "$jabatan->id":"$jabatan->nama"
+                }
+            ]
+        }, {
+            "name": "no_pendaftar",
+            "type": "varchar"
+        }, {
+            "name": "nip",
+            "type": "varchar"
+        }, {
+            "name": "nama",
+            "type": "varchar"
+        }, {
+            "name": "tanggal_lahir",
+            "type": "varchar"
+        }, {
+            "name": "tempat_lahir",
+            "type": "varchar"
+        }, {
+            "name": "jenis_kelamin",
+            "type": "select",
+            "options": [
+                {
+                    "Laki - Laki" : "Perempuan"
+                }
+            ]
+        }, {
+            "name": "agama",
+            "type": "select",
+            "options": [
+                {
+                    "Islam" : "Islam"
+                },{
+                    "Kristen Katolik" : "Kristen Katolik"
+                },{
+                    "Kristen Protestan" : "Kristen Protestan"
+                },{
+                    "Hindu" : "Hindu"
+                },{
+                    "Budha" : "Budha"
+                }
+            ]
+        }, {
+            "name": "alamat",
+            "type": "text"
+        }, {
+            "name": "no_telepon",
+            "type": "varchar"
+        }, {
+            "name": "status",
+            "type": "select",
+            "options":[
+                {
+                    "Aktif":"Aktif"
+                },{
+                    "Tidak Aktif":"Tidak Aktif"
+                }
+            ]
+        }, {
+            "name": "dibuat",
+            "type": "varchar"
+        }
+    ],
+
+    "foreign_keys": [],
+    "relationships": [{
+        "name": "user",
+        "type": "belongsTo",
+        "class": "App\\Models\\User"
+    }, {
+        "name": "jabatan",
+        "type": "belongsTo",
+        "class": "App\\Models\\Jabatan"
+    }],
+
+    "validations": [{
+        "field": "jabatan_id",
+        "rules": "required|exists:jabatan,id"
+    }, {
+        "field": "no_pendaftar",
+        "rules": "required|max:7"
+    }, {
+        "field": "nip",
+        "rules": "required|max:20"
+    }, {
+        "field": "nama",
+        "rules": "required|max:30"
+    }, {
+        "field": "tanggal_lahir",
+        "rules": "required|max:12"
+    }, {
+        "field": "tempat_lahir",
+        "rules": "required|max:12"
+    }, {
+        "field": "jenis_kelamin",
+        "rules": "required|in:Laki - Laki,Perempuan"
+    }, {
+        "field": "agama",
+        "rules": "required|in:Islam,Kristen Katolik,Kristen Protestan,Hindu,Budha"
+    }, {
+        "field": "alamat",
+        "rules": "required|max:255"
+    }, {
+        "field": "no_telepon",
+        "rules": "required|max:15"
+    }, {
+        "field": "status",
+        "rules": "required|in:Aktif,Tidak Aktif"
+    }, {
+        "field": "dibuat",
+        "rules": "required|max:12"
+    }]
+}

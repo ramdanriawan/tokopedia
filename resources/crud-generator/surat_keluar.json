@@ -1,0 +1,66 @@
+{
+    "fields": [{
+            "name": "sifat_surat_id",
+            "type": "select",
+            "options": [
+                {
+                    "$sifat_surat->id":"$sifat_surat->nama"
+                }
+            ]
+        }, {
+            "name": "waktu_keluar",
+            "type": "varchar"
+        }, {
+            "name": "nomor",
+            "type": "varchar"
+        }, {
+            "name": "pengirim",
+            "type": "varchar"
+        }, {
+            "name": "perihal",
+            "type": "varchar"
+        }, {
+            "name": "kepada",
+            "type": "varchar"
+        }, {
+            "name": "isi_ringkas",
+            "type": "varchar"
+        }, {
+            "name": "lampiran",
+            "type": "file"
+        }
+    ],
+
+    "foreign_keys": [],
+    "relationships": [{
+        "name": "sifat_surat_id",
+        "type": "belongsTo",
+        "class": "App\\Models\\sifat_surat"
+    }],
+
+    "validations": [{
+        "field": "sifat_surat_id",
+        "rules": "required|exists:sifat_surat,id"
+    }, {
+        "field": "waktu_keluar",
+        "rules": "required|max:12"
+    }, {
+        "field": "nomor",
+        "rules": "required|max:30"
+    }, {
+        "field": "pengirim",
+        "rules": "required|max:30"
+    }, {
+        "field": "perihal",
+        "rules": "required|max:30"
+    }, {
+        "field": "kepada",
+        "rules": "required|max:30"
+    }, {
+        "field": "isi_ringkas",
+        "rules": "required|max:255"
+    }, {
+        "field": "lampiran",
+        "rules": "required"
+    }]
+}

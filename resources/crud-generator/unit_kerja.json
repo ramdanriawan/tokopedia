@@ -1,0 +1,76 @@
+{
+    "fields": [{
+            "name": "bagian_id",
+            "type": "select",
+            "options": [
+                {
+                    "$bagian->id":"$bagian->nama"
+                }
+            ]
+        }, {
+            "name": "nama",
+            "type": "varchar"
+        }, {
+            "name": "jenis_kelamin",
+            "type": "select",
+            "options": [
+                {
+                    "Laki - Laki" : "Perempuan"
+                }
+            ]
+        }, {
+            "name": "alamat",
+            "type": "text"
+        }, {
+            "name": "no_telepon",
+            "type": "varchar"
+        }, {
+            "name": "status",
+            "type": "select",
+            "options":[
+                {
+                    "Aktif":"Aktif"
+                },{
+                    "Tidak Aktif":"Tidak Aktif"
+                }
+            ]
+        }, {
+            "name": "dibuat",
+            "type": "varchar"
+        }
+    ],
+
+    "foreign_keys": [],
+    "relationships": [{
+        "name": "user",
+        "type": "belongsTo",
+        "class": "App\\Models\\User"
+    }, {
+        "name": "bagian",
+        "type": "belongsTo",
+        "class": "App\\Models\\Bagian"
+    }],
+
+    "validations": [{
+        "field": "bagian_id",
+        "rules": "required|exists:bagian,id"
+    }, {
+        "field": "nama",
+        "rules": "required|max:30"
+    }, {
+        "field": "jenis_kelamin",
+        "rules": "required|in:Laki - Laki,Perempuan"
+    }, {
+        "field": "alamat",
+        "rules": "required|max:255"
+    }, {
+        "field": "no_telepon",
+        "rules": "required|max:15"
+    }, {
+        "field": "status",
+        "rules": "required|in:Aktif,Tidak Aktif"
+    }, {
+        "field": "dibuat",
+        "rules": "required|max:12"
+    }]
+}

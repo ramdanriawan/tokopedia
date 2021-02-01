@@ -1,0 +1,26 @@
+{
+    "fields": [{
+        "name": "judul",
+        "type": "varchar"
+    }, {
+        "name": "isi",
+        "type": "text"
+    }, {
+        "name": "lampiran",
+        "type": "file"
+    }],
+
+    "foreign_keys": [],
+    "relationships": [],
+
+    "validations": [{
+        "field": "judul",
+        "rules": "required|max:100"
+    }, {
+        "field": "isi",
+        "rules": "required"
+    }, {
+        "field": "lampiran",
+        "rules": "required"
+    }]
+}

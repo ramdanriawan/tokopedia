@@ -1,0 +1,15 @@
+{
+    "fields": [{
+            "name": "keterangan",
+            "type": "varchar"
+        }
+    ],
+
+    "foreign_keys": [],
+    "relationships": [],
+
+    "validations": [{
+        "field": "keterangan",
+        "rules": "required|max:30"
+    }]
+}

@@ -1,0 +1,15 @@
+{
+    "fields": [{
+            "name": "nama ",
+            "type": "varchar"
+        }
+    ],
+
+    "foreign_keys": [],
+    "relationships": [],
+
+    "validations": [{
+        "field": "nama",
+        "rules": "required|max:30"
+    }]
+}

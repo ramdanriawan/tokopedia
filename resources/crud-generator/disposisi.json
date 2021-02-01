@@ -1,0 +1,45 @@
+{
+    "fields": [{
+            "name": "surat_masuk_id",
+            "type": "varchar"
+        },{
+            "name": "unit_kerja_sub_bagian_id",
+            "type": "select",
+            "options": [
+                {"":""}
+            ]
+        }, {
+            "name": "rekrutmen_jabatan_id",
+            "type": "select",
+            "options": [
+                {"":""}
+            ]
+        }, {
+            "name": "waktu_disposisi",
+            "type": "varchar"
+        }
+    ],
+
+    "foreign_keys": [],
+    "relationships": [{
+        "name": "surat_masuk",
+        "type": "belongsTo",
+        "class": "App\\Models\\SuratMasuk"
+    },{
+        "name": "bagian",
+        "type": "belongsTo",
+        "class": "App\\Models\\Bagian"
+    },{
+        "name": "jabatan",
+        "type": "belongsTo",
+        "class": "App\\Models\\Jabatan"
+    }],
+
+    "validations": [{
+        "field": "bagian",
+        "rules": "required|exists:bagian,id"
+    }, {
+        "field": "jabatan",
+        "rules": "required|exists:jabatan,id"
+    }]
+}

@@ -1,0 +1,19 @@
+php artisan dashboard:make user,anggota
+php artisan chart:make user,anggota
+php artisan sidebar:make session true #table laporan true / false
+php artisan formlaporan:make bagian,unit_kerja,disposisi,surat_masuk,surat_keluar,sifat_surat,jabatan,rekrutmen
+php artisan printlaporan:make detail_peminjaman id,created_at,updated_at
+php artisan crud:generate Berita --fields_from_file="resources\crud-generator\berita.json" --controller-namespace=App\Http\Controllers --form-helper=html
+
+"foreign_keys": [{
+        "column": "user_id",
+        "references": "id",
+        "on": "users",
+        "onDelete": "cascade"
+    }],
+
+    "relationships": [{
+        "name": "user",
+        "type": "belongsTo",
+        "class": "App\\Models\\User"
+    }],

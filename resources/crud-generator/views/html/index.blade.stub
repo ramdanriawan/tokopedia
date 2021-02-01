@@ -1,0 +1,51 @@
+@extends('layouts.app')
+
+@section('content')
+<table class="table" id='dataTable'>
+    <thead>
+        <tr>
+            <th width=2>#</th>
+            %%formHeadingHtml%%
+            <th class="text-center">Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($%%crudName%% as $item)
+        <tr data-id='{{ $item->%%primaryKey%% }}'>
+            <td>
+                {{ $loop->iteration }}
+            </td>
+
+            %%formBodyHtml%%
+
+            <td class="text-center">
+                <a class="label label-primary"
+                    href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%% . '/edit') }}">Edit</a>
+                <form action="{{ url('/%%routeGroup%%%%viewName%%' . '/' . $item->%%primaryKey%%) }}"
+                    method='post' style='display: inline;'
+                    onsubmit="return confirm('Yakin akan menghapus data ini?')">
+                    @method('DELETE')
+                    @csrf
+                    <label class="label label-danger" href="" for='btnSubmit-{{ $item->%%primaryKey%% }}'
+                        style='cursor: pointer;'>Hapus</label>
+                    <button type="submit" id='btnSubmit-{{ $item->%%primaryKey%% }}'
+                        style="display: none;"></button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+<script>
+    const locationHrefHapusSemua = "{{ url('%%crudName%%/hapus_semua') }}";
+    const locationHrefAktifkanSemua = "{{ url('%%crudName%%/aktifkan_semua') }}";
+    const locationHrefCreate = "{{ url('%%crudName%%/create') }}";
+    var columnOrders = [{{ $%%crudName%%_count }}];
+    var urlSearch = "{{ url('%%crudName%%') }}";
+    var q = "{{ $_GET['q'] ?? '' }}";
+    var placeholder = "Filter...";
+    var tampilkan_buttons = true;
+    var button_manual = true;
+</script>
+@endsection

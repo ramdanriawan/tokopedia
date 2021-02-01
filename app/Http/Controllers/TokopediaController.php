@@ -85,7 +85,15 @@ class TokopediaController extends Controller
                         }
                     } catch (\Exception $e) {
 
-                        exit($e->getMessage());
+                        $timeLimit = 0;
+                        while(true) {
+                            if($timeLimit == 60) {
+                                break 1;
+                            }
+
+                            $timeLimit += 1;
+                            sleep(1);
+                        }
                     }
                 }
 

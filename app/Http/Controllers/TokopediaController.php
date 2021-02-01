@@ -15,7 +15,7 @@ class TokopediaController extends Controller
         
         $folderCekGambar  = glob(public_path('tokopedia\file_lama\271386\*.xlsx'));
         $folderUbahStatus = glob(public_path('tokopedia\file_lama\271385\*.xlsx'));
-
+dd($folderCekGambar, $folderUbahStatus);
         // untuk membuat open link in new tab javascript
         if(!request()->file_ke && !request()->baris_ke) {
             for ($i=$_GET['start_dari']; $i < $_GET['berhenti_di']; $i++) { 

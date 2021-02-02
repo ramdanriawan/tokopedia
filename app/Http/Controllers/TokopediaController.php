@@ -15,9 +15,9 @@ class TokopediaController extends Controller
         $folderCekGambar  = glob(public_path('tokopedia/file_lama/271386/*.xlsx'));
         $folderUbahStatus = glob(public_path('tokopedia/file_lama/271385/*.xlsx'));
         // untuk membuat open link in new tab javascript
-        if(!request()->file_ke && !request()->baris_ke) {
-            for ($i=$_GET['start_dari']; $i < $_GET['berhenti_di']; $i++) { 
-                
+        if (!request()->file_ke && !request()->baris_ke) {
+            for ($i = $_GET['start_dari']; $i < $_GET['berhenti_di']; $i++) {
+
                 echo "<script>window.open(\"?file_ke=$i&baris_ke=4\", \"_blank\"); </script>";
             }
 
@@ -25,7 +25,7 @@ class TokopediaController extends Controller
         }
 
         $folderKeBerapa = $_GET['file_ke'];
-        for ($a = $_GET['file_ke']; $a < count($folderCekGambar); $a++) { 
+        for ($a = $_GET['file_ke']; $a < count($folderCekGambar); $a++) {
             $file_excel = $folderCekGambar[$a];
             $worksheet  = \PHPExcel_IOFactory::createReaderForFile($file_excel)->load($file_excel)->getSheet(0);
 
@@ -34,9 +34,9 @@ class TokopediaController extends Controller
             $excel2 = $excel2->load($folderUbahStatus[$a]);
             $excel2->setActiveSheetIndex(0);
 
-            $gambar = [];
+            $gambar       = [];
             $fileSaveName = 'tokopedia/file_update/TOKOPEDIA_PRODUCT_UPDATE_' . time() . '.xlsx';
-            
+
             for ($row = $_GET['baris_ke']; $row <= $worksheet->getHighestRow(); ++$row) {
                 $nomor = $row - 3;
 
@@ -55,7 +55,7 @@ class TokopediaController extends Controller
                 foreach ($gambar as $key => $item) {
 
                     // kalo gambarnya gak ada ya g usah dicek
-                    if(empty($item)) {
+                    if (empty($item)) {
                         continue 1;
                     }
 
@@ -86,8 +86,8 @@ class TokopediaController extends Controller
                     } catch (\Exception $e) {
 
                         $timeLimit = 0;
-                        while(true) {
-                            if($timeLimit == 60) {
+                        while (true) {
+                            if ($timeLimit == 60) {
                                 break 1;
                             }
 
@@ -100,7 +100,7 @@ class TokopediaController extends Controller
                     }
                 }
 
-                if($gambarIniGakAdaWatermark != 1) {
+                if ($gambarIniGakAdaWatermark != 1) {
                     echo "Ketemu nih produk yg ada watermarknya, mantulll <br>";
 
                     $excel2->getActiveSheet()->setCellValue("I$row", 'Nonaktif');
@@ -108,8 +108,12 @@ class TokopediaController extends Controller
 
                 $objWriter = \PHPExcel_IOFactory::createWriter($excel2, 'Excel2007');
                 $objWriter->save($fileSaveName);
-            }
 
+                // update produk
+                $excel2 = \PHPExcel_IOFactory::createReader(\PHPExcel_IOFactory::identify(public_path($fileSaveName)));
+                $excel2 = $excel2->load(public_path($fileSaveName));
+                $excel2->setActiveSheetIndex(0);
+            }
 
             echo "baru folder ke: " . $folderKeBerapa . " nih gan, sabar yakk, wkwkw <br>";
 

@@ -24,7 +24,7 @@ class TokopediaController extends Controller
             return false;
         }
 
-        $folderKeBerapa = 1;
+        $folderKeBerapa = $_GET['file_ke'];
         for ($a = $_GET['file_ke']; $a < count($folderCekGambar); $a++) { 
             $file_excel = $folderCekGambar[$a];
             $worksheet  = \PHPExcel_IOFactory::createReaderForFile($file_excel)->load($file_excel)->getSheet(0);

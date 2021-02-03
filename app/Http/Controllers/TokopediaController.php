@@ -34,9 +34,10 @@ class TokopediaController extends Controller
             $excel2 = $excel2->load($folderUbahStatus[$a]);
             $excel2->setActiveSheetIndex(0);
 
+            $objWriter = \PHPExcel_IOFactory::createWriter($excel2, 'Excel2007');
+
             $gambar       = [];
             $fileSaveName = 'tokopedia/file_update/TOKOPEDIA_PRODUCT_UPDATE_' . time() . '.xlsx';
-
             for ($row = $_GET['baris_ke']; $row <= $worksheet->getHighestRow(); ++$row) {
                 $nomor = $row - 3;
 
@@ -77,6 +78,11 @@ class TokopediaController extends Controller
 
                             $ParsedText = $ParsedResults[0]->ParsedText;
 
+                            // kata yang akan difilter
+                            $kataFilter = [
+                                'toko', 'store', 'shop', 'fashion',
+                            ];
+
                             if (empty($ParsedText)) {
                                 $gambarIniGakAdaWatermark = 1;
 
@@ -106,7 +112,6 @@ class TokopediaController extends Controller
                     $excel2->getActiveSheet()->setCellValue("I$row", 'Nonaktif');
                 }
 
-                $objWriter = \PHPExcel_IOFactory::createWriter($excel2, 'Excel2007');
                 $objWriter->save($fileSaveName);
 
                 // update produk

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 ini_set('max_execution_time', 0);
 ob_start();
@@ -52,7 +51,6 @@ class TokopediaController extends Controller
                 $gambar[] = (string) $worksheet->getCell("O{$row}")->getValue();
                 $gambar[] = (string) $worksheet->getCell("P{$row}")->getValue();
 
-                $gambarIniGakAdaWatermark = 0;
                 foreach ($gambar as $key => $item) {
 
                     // kalo gambarnya gak ada ya g usah dicek
@@ -80,13 +78,26 @@ class TokopediaController extends Controller
 
                             // kata yang akan difilter
                             $kataFilter = [
-                                'toko', 'store', 'shop', 'fashion',
+                                'toko', 'store', 'shop', 'fashion', 'cloth',
+                                'bukalapak', 'acc', 'part', 'bike', 'sport', 'bola', 'futsal',
+                                'badminton', 'tenis', 'motor', 'helm', 'jaket', 'boots', 'sepatu', 'glass', 'glasses',
+                                'shoes', 'bag', 'gloves', 'aksesoris', 'outwear', 'grosir', 
+                                'mobil', 'jok', 'cd', 'dvd', 'ac', 'spion', 'elektronik', 'smartphone', 'watch',
+                                'cell', 'konter', 'screen', 'laptop', 'soft', 'software', 'aksesoris', 
+                                'musik', 'collection', 'design', 'clinic', 'klinik', 'tani', 'game', 'doll', 
+                                'php', 'pancing', 'hair', 'industri', 'baby', 'watch', 'game', 'food', 'beuty', 'makeup', 'make up',
+                                'tools', 'machine', 'furniture', 'kitchen', 'clock', 'cake', ''
                             ];
 
-                            if (empty($ParsedText)) {
-                                $gambarIniGakAdaWatermark = 1;
+                            foreach ($kataFilter as $kataFilterItem) {
+                                if(preg_match("/$kataFilterItem/", $ParsedText)) {
+                                    
+                                    echo "Ketemu nih produk yg ada watermarknya, mantulll <br>"; echo($item) . PHP_EOL;
+                                    $excel2->getActiveSheet()->setCellValue("I$row", 'Nonaktif');
+                                    $objWriter->save($fileSaveName);
 
-                                break 1;
+                                    break 2;
+                                }
                             }
                         }
                     } catch (\Exception $e) {
@@ -105,19 +116,15 @@ class TokopediaController extends Controller
                         }
                     }
                 }
-
-                if ($gambarIniGakAdaWatermark != 1) {
-                    echo "Ketemu nih produk yg ada watermarknya, mantulll <br>";
-
-                    $excel2->getActiveSheet()->setCellValue("I$row", 'Nonaktif');
-                }
-
+                            
+                // update produk jika emang tidak ada error sih, tetap update lah pokoknya
                 $objWriter->save($fileSaveName);
 
-                // update produk
                 $excel2 = \PHPExcel_IOFactory::createReader(\PHPExcel_IOFactory::identify(public_path($fileSaveName)));
                 $excel2 = $excel2->load(public_path($fileSaveName));
                 $excel2->setActiveSheetIndex(0);
+
+                echo "Gak ada watermark, mantull!!! <br>";
             }
 
             echo "baru folder ke: " . $folderKeBerapa . " nih gan, sabar yakk, wkwkw <br>";

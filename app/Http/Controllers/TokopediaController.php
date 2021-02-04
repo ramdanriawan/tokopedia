@@ -23,8 +23,9 @@ class TokopediaController extends Controller
             return false;
         }
 
-        $folderKeBerapa = $_GET['file_ke'];
-        for ($a = $_GET['file_ke']; $a < count($folderCekGambar); $a++) {
+        $file_ke = $_GET['file_ke'];
+        $fileSaveName = 'tokopedia/file_update/TOKOPEDIA_PRODUCT_UPDATE_' . time() . '.xlsx';
+        for ($a = $file_ke; $a < count($folderCekGambar); $a++) {
             $file_excel = $folderCekGambar[$a];
             $worksheet  = \PHPExcel_IOFactory::createReaderForFile($file_excel)->load($file_excel)->getSheet(0);
 
@@ -34,13 +35,11 @@ class TokopediaController extends Controller
             $excel2->setActiveSheetIndex(0);
 
             $objWriter = \PHPExcel_IOFactory::createWriter($excel2, 'Excel2007');
-
             $gambar       = [];
-            $fileSaveName = 'tokopedia/file_update/TOKOPEDIA_PRODUCT_UPDATE_' . time() . '.xlsx';
-            for ($row = $_GET['baris_ke']; $row <= $worksheet->getHighestRow(); ++$row) {
+            for ($row = $_GET['baris_ke']; $row <= $worksheet->getHighestRow(); $row++) {
                 $nomor = $row - 3;
 
-                echo "Folder ke $folderKeBerapa, item ke $nomor <br>";
+                echo "File ke $file_ke, item ke $nomor : " . $worksheet->getCell("B{$row}")->getValue() . "<br>";
                 if (ob_get_contents()) {
                     ob_end_clean();
                 }
@@ -55,7 +54,7 @@ class TokopediaController extends Controller
 
                     // kalo gambarnya gak ada ya g usah dicek
                     if (empty($item)) {
-                        continue 1;
+                        continue;
                     }
 
                     $data = [
@@ -86,17 +85,17 @@ class TokopediaController extends Controller
                                 'cell', 'konter', 'screen', 'laptop', 'soft', 'software', 'aksesoris', 
                                 'musik', 'collection', 'design', 'clinic', 'klinik', 'tani', 'game', 'doll', 
                                 'php', 'pancing', 'hair', 'industri', 'baby', 'watch', 'game', 'food', 'beuty', 'makeup', 'make up',
-                                'tools', 'machine', 'furniture', 'kitchen', 'clock', 'cake', ''
+                                'tools', 'machine', 'furniture', 'kitchen', 'clock', 'cake', 'by', 'by: '
                             ];
 
                             foreach ($kataFilter as $kataFilterItem) {
-                                if(preg_match("/$kataFilterItem/", $ParsedText)) {
+                                if(preg_match("/$kataFilterItem/", $ParsedText) || empty($ParsedText)) {
                                     
-                                    echo "Ketemu nih produk yg ada watermarknya, mantulll <br>"; echo($item) . PHP_EOL;
+                                    echo "Ketemu nih produk yg ada watermarknya, mantulll : $file_ke | $fileSaveName | $gambar | $kataFilterItem | $ParsedText <br>";
                                     $excel2->getActiveSheet()->setCellValue("I$row", 'Nonaktif');
                                     $objWriter->save($fileSaveName);
-
-                                    break 2;
+                                    
+                                    continue 3;
                                 }
                             }
                         }
@@ -105,12 +104,12 @@ class TokopediaController extends Controller
                         $timeLimit = 0;
                         while (true) {
                             if ($timeLimit == 60) {
-                                break 1;
+                                break;
                             }
 
                             $timeLimit += 1;
 
-                            echo "Lagi limit gannnn, tunggu sampai 60 yah. ini baru: $timeLimit <br>";
+                            echo "Lagi limit gannnn, tunggu sampai 60 yah. ini baru: $timeLimit, {$e->getMessage()}<br>";
 
                             sleep(1);
                         }
@@ -118,23 +117,26 @@ class TokopediaController extends Controller
                 }
                             
                 // update produk jika emang tidak ada error sih, tetap update lah pokoknya
-                $objWriter->save($fileSaveName);
+                if(!file_exists(public_path($fileSaveName))) {
+
+                    $objWriter->save($fileSaveName);
+                }
 
                 $excel2 = \PHPExcel_IOFactory::createReader(\PHPExcel_IOFactory::identify(public_path($fileSaveName)));
                 $excel2 = $excel2->load(public_path($fileSaveName));
                 $excel2->setActiveSheetIndex(0);
 
-                echo "Gak ada watermark, mantull!!! <br>";
+                echo "Gak ada watermark, mantull!!!: $file_ke | $fileSaveName | $item  <br>";
             }
 
-            echo "baru folder ke: " . $folderKeBerapa . " nih gan, sabar yakk, wkwkw <br>";
+            echo "baru File ke: " . $file_ke . " nih gan, sabar yakk, wkwkw : $file_ke | $fileSaveName | $item  <br>";
 
             if (ob_get_contents()) {
                 ob_end_clean();
             }
 
             sleep(1);
-            $folderKeBerapa++;
+            $file_ke++;
         }
 
         return "Udah selesai diupdate loh, wkwkwk";

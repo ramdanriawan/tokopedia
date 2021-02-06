@@ -109,7 +109,11 @@ class TokopediaController extends Controller
 
                             $timeLimit += 1;
 
-                            echo "Lagi limit gannnn, tunggu sampai 60 yah. ini baru: $timeLimit, {$e->getMessage()}<br>";
+                            echo "Lagi limit gannnn, tunggu sampai 60 yah. ini baru: $timeLimit";
+
+                            print_r($e->getMessage());
+
+                            echo "<br>";
 
                             sleep(1);
                         }

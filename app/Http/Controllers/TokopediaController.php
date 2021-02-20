@@ -62,12 +62,26 @@ class TokopediaController extends Controller
                         'url'       => $item,
                         'OCREngine' => 2,
                     ];
+                    
+//                    $data = [
+//                        'apikey'    => '3e877b7c3188957',
+//                        'url'       => $item,
+//                        'OCREngine' => 2,
+//                    ];
 
                     try {
                         $client = new \GuzzleHttp\Client();
                         $res    = $client->request('POST', "https://apipro3.ocr.space/parse/image", [
                             'form_params' => $data,
                         ]);
+                        
+//                        $client = new \GuzzleHttp\Client();
+//                        $res    = $client->request('POST', "https://api.ocr.space/parse/image", [
+//                            'form_params' => $data,
+//                        ]);
+//                        
+//                        $client = new \GuzzleHttp\Client();
+//                        $res    = $client->request('GET', "https://api.ocr.space/parse/imageUrl?" . http_build_query($data));
 
                         $ParsedResults = json_decode($res->getBody())->ParsedResults;
 
@@ -85,7 +99,7 @@ class TokopediaController extends Controller
                                 'cell', 'konter', 'screen', 'laptop', 'soft', 'software', 'aksesoris', 
                                 'musik', 'collection', 'design', 'clinic', 'klinik', 'tani', 'game', 'doll', 
                                 'php', 'pancing', 'hair', 'industri', 'baby', 'watch', 'game', 'food', 'beuty', 'makeup', 'make up',
-                                'tools', 'machine', 'furniture', 'kitchen', 'clock', 'cake', 'by', 'by: '
+                                'tools', 'machine', 'furniture', 'kitchen', 'clock', 'cake', 'by', 'by: ', '.com'
                             ];
 
                             foreach ($kataFilter as $kataFilterItem) {
@@ -110,8 +124,6 @@ class TokopediaController extends Controller
                             $timeLimit += 1;
 
                             echo "Lagi limit gannnn, tunggu sampai 60 yah. ini baru: $timeLimit";
-
-                            print_r($e->getMessage());
 
                             echo "<br>";
 
